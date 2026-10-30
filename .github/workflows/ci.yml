@@ -1,0 +1,29 @@
+name: CI · Zonas TruBio
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: requirements_zonas.txt
+      - name: Instalar dependências
+        run: python -m pip install -r requirements_zonas.txt pytest
+      - name: Compilar arquivos Python
+        run: python -m compileall -q app_zonas.py zonas_core.py zonas_persistencia.py zonas_selftest.py arquivos_seguros.py tests
+      - name: Testar arquivos compactados
+        run: python -m pytest -q tests
+      - name: Testar motor sem rede (simulação)
+        run: python zonas_core.py --selftest

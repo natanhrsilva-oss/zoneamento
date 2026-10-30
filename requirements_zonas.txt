@@ -1,0 +1,16 @@
+# Zonas de amostragem direcionada (TruBio): Python 3.10+
+numpy
+pandas
+geopandas
+pyogrio
+shapely>=2.1          # coverage_simplify (zonas sem frestas nem sobreposição)
+pyproj
+scipy
+rasterio
+scikit-learn
+pystac-client
+odc-stac
+folium
+matplotlib
+streamlit
+psutil                # opcional: mede o tráfego de rede real durante a análise
